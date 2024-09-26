@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
-const LeaveHistory = () => {
+const LeaveHistory = ({closeModal}) => {
   const [leaveHistory, setLeaveHistory] = useState([]);
   const baseURL = import.meta.env.VITE_BASE_URL;
 
@@ -31,7 +31,7 @@ const LeaveHistory = () => {
         <table className="min-w-full table-auto border-collapse border border-gray-200">
           <thead className="bg-gray-100">
             <tr>
-              <th className="px-4 py-2 border border-gray-200">Employee Name</th>
+              {/* <th className="px-4 py-2 border border-gray-200">Employee Name</th> */}
               <th className="px-4 py-2 border border-gray-200">Leave Type</th>
               <th className="px-4 py-2 border border-gray-200">Date</th>
               <th className="px-4 py-2 border border-gray-200">Reason</th>
@@ -43,9 +43,9 @@ const LeaveHistory = () => {
             {leaveHistory.length > 0 ? (
               leaveHistory.map((leave) => (
                 <tr key={leave.id} className="bg-white hover:bg-gray-50">
-                  <td className="px-4 py-3 border border-gray-200">
+                  {/* <td className="px-4 py-3 border border-gray-200">
                     {leave.employee.first_name}
-                  </td>
+                  </td> */}
                   <td className="px-4 py-3 border border-gray-200">
                     {leave.leave_type.charAt(0).toUpperCase() + leave.leave_type.slice(1)}
                   </td>

@@ -3,7 +3,8 @@ import React, { useState } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import ApplyLeaveModal from "./ApplyLeaveModal";
-import HistoryModal from "./HistoryModal";
+// import HistoryModal from "./HistoryModal";
+import LeaveHistory from "./HistoryModal";
 import { useSelector } from "react-redux";
 import { Toaster } from "sonner";
 import { useNavigate } from "react-router-dom";
@@ -15,6 +16,16 @@ const Dashboard = () => {
   const [isHistoryModalOpen, setIsHistoryModalOpen] = useState(false);
   const firstName = useSelector((state) => state.auth.first_name);
   const [calendarLeaves, setCalendarLeaves] = useState([]);
+  const handleLogout = () => {
+    // Clear tokens from local storage
+    localStorage.removeItem("access");
+    localStorage.removeItem("refresh");
+    localStorage.removeItem("tokens")
+
+    // Redirect to login page
+    navigate("/login");
+  };
+
 
   const openApplyModal = () => {
     setIsApplyModalOpen(true);
@@ -38,7 +49,7 @@ const Dashboard = () => {
       <nav className="bg-blue-600 p-4 shadow-lg">
         <div className="container mx-auto flex justify-between">
           <h1 className="text-white text-lg">Welcome, {firstName}</h1>
-          <button className="bg-red-500 px-4 py-2 rounded text-white" onClick={() => {}}>
+          <button className="bg-red-500 px-4 py-2 rounded text-white"  onClick={handleLogout}>
             Logout
           </button>
         </div>
@@ -85,7 +96,23 @@ const Dashboard = () => {
       {isApplyModalOpen && <ApplyLeaveModal closeModal={closeApplyModal} />}
 
       {/* History Modal */}
-      {isHistoryModalOpen && <HistoryModal closeModal={closeHistoryModal} />}
+      {/* {isHistoryModalOpen && <LeaveHistory closeModal={closeHistoryModal} />} */}
+      {isHistoryModalOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white p-6 rounded-lg w-full max-w-5xl relative">
+            {/* Close Button */}
+            <button
+              onClick={closeHistoryModal}
+              className="absolute top-2 right-2 text-xl font-bold"
+            >
+              &times;
+            </button>
+
+            {/* Render LeaveHistory directly in the modal */}
+            <LeaveHistory />
+          </div>
+        </div>
+      )}
     </div>
   );
 };
